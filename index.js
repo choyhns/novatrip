@@ -20,10 +20,7 @@ require('./models/boardSchema');
 const path = require('path');
 const app = express();
 
-mongoose.set('strictQuery',false)
 const axios = require('axios');
-
-app.set('port',PORT||8080)
 
 require('./models/memberSchema')
 
@@ -41,10 +38,6 @@ hitBoard(app)
 updateBoardRouter(app)
 goodToggleRouter(app)
 getRandomImageRouter(app)
-
-app.get('/api/ping', (req, res) => {
-  res.status(200).json({ ok: true, t: Date.now() })
-})
 
 //미들웨어
 app.use(cors({
@@ -76,25 +69,6 @@ app.use("/api/tripGoods",tripGoodRouter)
 app.use("/api/tripBookmark",tripBookmarkRouter)
 app.use("/api/myInfoData",myInfoDataRouter)
 
-
-app.get('/api/me', (req, res) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ message: '토큰 없음' });
-
-  const token = authHeader.startsWith('Bearer ')
-    ? authHeader.split(' ')[1]
-    : authHeader;
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = getUserById(decoded.userId);
-    if (!user) return res.status(404).json({ message: '사용자 없음' });
-    res.json(user);
-  } catch (err) {
-    console.error('토큰 검증 실패:', err.message);
-    res.status(401).json({ message: '유효하지 않은 토큰' });
-  }
-});
 
 const courseRouter = require('./routers/courseRouter');
 app.use('/api/course', courseRouter);

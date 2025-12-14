@@ -10,7 +10,8 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const KAKAO_REST_API_KEY = process.env.KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'http://192.168.0.34:8080/login/auth/kakao/callback';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+const REDIRECT_URI = 'http://localhost:8080/login/auth/kakao/callback';
 
 // 회원탈퇴에 필요함.
 const { Board, Image, Good, Share } = require('../models/boardSchema');
@@ -186,7 +187,7 @@ app.get('/login/auth/kakao/callback', async (req, res) => {
 
     res.send(`
       <html><body><script>
-        window.opener.postMessage({ token: "${token}", nickname: "${user.nickname}" }, "http://192.168.0.34:3000");
+        window.opener.postMessage({ token: "${token}", nickname: "${user.nickname}" }, "${FRONTEND_URL}");
         window.close();
       </script></body></html>
     `);
@@ -391,7 +392,7 @@ app.get('/login/auth/kakao/callback', async (req, res) => {
       });
 
       await transporter.sendMail({
-        from: 'eastsea5675@naver.com',
+        from: process.env.EMAIL_USER,
         to: user.email,
         subject: ` ${user.name}님에게 임시 비밀번호 발급`,
         text: `귀하의 임시 비밀번호는 [${tempPassword}] 입니다. 로그인 후 반드시 변경해주세요.`,
