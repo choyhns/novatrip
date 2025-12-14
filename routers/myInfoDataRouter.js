@@ -4,7 +4,10 @@ const router = express.Router();
 // mongoose 모델 import
 const TripBookmark = require('../models/tripBookmarkSchema');
 const TripGood = require('../models/tripGoodsSchema');
-const {Board} = require('../models/boardSchema');
+require('../models/boardSchema');
+const mongoose = require('mongoose');
+const Board = mongoose.model('board');
+
 
 // 🎯 즐겨찾기 조회
 router.get('/bookmark/:userid', async (req, res) => {

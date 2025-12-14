@@ -3,7 +3,10 @@ const axios = require('axios');
 const pLimit = require('p-limit').default;
 const router = express.Router();
 
-const SERVICE_KEY = 'HtVnbBhrxvTKdkon9Hj5EPHkbyIiJj6/yjX4dvmk52X76puh26xXDv6RqAGW2FBrjArgivy8zxezS5BS7MClNQ==';
+require('dotenv').config();
+const SERVICE_KEY = process.env.TOUR_API_SERVICE_KEY;
+const BASE = process.env.TOUR_API_BASE || 'http://apis.data.go.kr/B551011/KorService2';
+if (!SERVICE_KEY) console.warn('⚠️ TOUR_API_SERVICE_KEY is missing');
 
 const axiosInstance = axios.create({ timeout: 10000 });
 const detailCache = new Map(); // contentId 별 상세 데이터 캐시
@@ -16,7 +19,7 @@ const getToday = () => {
 
 // ✅ 공통 리스트 조회
 const fetchList = async ({ api, params }) => {
-  const res = await axiosInstance.get(api, { params: { serviceKey: SERVICE_KEY, _type: 'json', ...params } });
+  const res = await axiosInstance.get(api, { params: { ServiceKey: SERVICE_KEY, _type: 'json', ...params } });
   let items = res.data?.response?.body?.items?.item || [];
   if (!Array.isArray(items)) items = [items];
   return items;
@@ -25,8 +28,8 @@ const fetchList = async ({ api, params }) => {
 // ✅ 공통 상세 조회
 const fetchDetail = async (contentid) => {
   try {
-    const res = await axiosInstance.get('http://apis.data.go.kr/B551011/KorService2/detailCommon2', {
-      params: { serviceKey: SERVICE_KEY, MobileOS: 'ETC', MobileApp: 'AppTest', _type: 'json', contentId: contentid },
+    const res = await axiosInstance.get(`${BASE}/detailCommon2`, {
+      params: { ServiceKey: SERVICE_KEY, MobileOS: 'ETC', MobileApp: 'AppTest', _type: 'json', contentId: contentid },
     });
     let item = res.data?.response?.body?.items?.item || {};
     if (Array.isArray(item)) item = item[0];

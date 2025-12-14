@@ -33,7 +33,7 @@ const EventAd = mongoose.model('event_ad');
 // 아래 모델들은 프로젝트에 있으면 사용, 없으면 주석 처리/교체
 let Board, Review, Report, Inquiry;
 try { Board = mongoose.model('board'); } catch {}
-try { Review = mongoose.models.reviewdbs || mongoose.model('reviewdbs'); } catch {}
+try { Review = mongoose.model('reviewdbs'); } catch {}
 try { Report = mongoose.model('report'); } catch {}
 try { Inquiry = mongoose.model('inquiry'); } catch {}
 
@@ -235,8 +235,8 @@ router.get('/members/:id/detail', async (req, res) => {
     const member = await Member.findById(memberId).select('userId nickname email created lastLogin status')
     if(!member) return res.status(404).json({message: '유저를 찾을 수 없습니다.'})
 
-    const Board = mongoose.models.board || mongoose.model('board');
-    const Review = mongoose.models.reviewdbs || mongoose.model('review');
+    const Board = mongoose.model('board');
+    const Review = mongoose.model('review');
 
     const boards = await Board.find({ userId: member.userId})
       .select('numBrd subject boardType created')

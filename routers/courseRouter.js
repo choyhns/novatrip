@@ -3,8 +3,10 @@ const axios = require('axios');
 const router = express.Router();
 const pLimit = require('p-limit').default;
 
-const SERVICE_KEY =
-  'HtVnbBhrxvTKdkon9Hj5EPHkbyIiJj6/yjX4dvmk52X76puh26xXDv6RqAGW2FBrjArgivy8zxezS5BS7MClNQ==';
+require('dotenv').config();
+const SERVICE_KEY = process.env.TOUR_API_SERVICE_KEY;
+const BASE = process.env.TOUR_API_BASE || 'http://apis.data.go.kr/B551011/KorService2';
+if (!SERVICE_KEY) console.warn('⚠️ TOUR_API_SERVICE_KEY is missing');
 
 // 캐시
 const courseCache = new Map(); // key: contentid, value: courseData
