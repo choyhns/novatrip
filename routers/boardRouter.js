@@ -382,6 +382,7 @@ const getBoardRouter = (app) => {
             ];
 
             const boards = await Board.aggregate(pipeline);
+
             return res.status(200).send(boards);
         } catch (err) {
             next(err);

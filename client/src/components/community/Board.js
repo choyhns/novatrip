@@ -44,7 +44,6 @@ const Board = ({ rightRef, scrollRef }) => {
     newQuery.set('cat', value);
     history({ search: `?${newQuery.toString()}` });
     // 탭 바꾸면 첫 페이지부터 다시
-    loadMore(0, newQuery.get('cat'));
   };
 
   const [keyword, setKeyword] = useState('');
@@ -60,7 +59,7 @@ const Board = ({ rightRef, scrollRef }) => {
   const loadMore = useCallback(
     async (baseSkip, curCat) => {
       if (loading || fetchingRef.current) return;
-      if (baseSkip > 0 && !hasMore) return;
+      if (!hasMore) return
 
       fetchingRef.current = true;
       setLoading(true);
@@ -87,12 +86,13 @@ const Board = ({ rightRef, scrollRef }) => {
         setHasMore(boardListData.length === limit);
       } catch (e) {
         console.error(e);
+        setHasMore(false);
       } finally {
         setLoading(false);
         fetchingRef.current = false;
       }
     },
-    [modalOpen, skip, limit, hasMore, loading, onListData, setBoardList, setLoading, setSkip, filters, sort, searchKey]
+    [limit, hasMore, loading, onListData, setBoardList, setLoading, setSkip, filters, sort, searchKey]
   );
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const Board = ({ rightRef, scrollRef }) => {
     const el = scrollRef?.current;
     if (!el) return;
     const handleScroll = () => {
-      if (el.scrollTop + el.clientHeight >= el.scrollHeight - 120) {
+      if (!loading && hasMore && el.scrollTop + el.clientHeight >= el.scrollHeight - 120) {
         loadMore(skip, cat);
       }
     };
