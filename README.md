@@ -46,6 +46,30 @@ NovaTrip은 여행 정보 공유와 커뮤니티 기능을 결합한 서울 기�
 - 팀원 간 브랜치 병합 시 충돌 해결
 - 라우터 / 모델 / 미들웨어 구조를 정리하여 중복 코드 제거
 
+## .env.example
+실제 .env 파일은 Git에 포함하지 않고 .env.example만 관리하여
+보안 및 환경 분리를 유지했습니다.
+- Server
+  - PORT=8080
+  - BASE_URL=http://localhost:8080
+
+- MongoDB
+  - MONGO_URI=http://localhost:27017
+  - MONGO_DB_NAME=NovaTrip
+- Auth
+  - JWT_SECRET=YOUR_JWT_SECRET
+- Email
+  - EMAIL_USER=YOUR_EMAIL
+  - EMAIL_PASS=YOUR_EMAIL_PASSWORD
+- Kakao OAuth
+  - KAKAO_REST_API_KEY=YOUR_KAKAO_REST_API_KEY
+  - KAKAO_REDIRECT_URI=http://localhost:8080/login/auth/kakao/callback
+- Frontend
+  - FRONTEND_URL=http://localhost:3000
+- Tour API
+  - TOUR_API_SERVICE_KEY=YOUR_TOUR_API_KEY
+  - TOUR_API_BASE=http://apis.data.go.kr/B551011/KorService2
+
 ## 실행 방법
 ### 환경
 - Node.js 18+
