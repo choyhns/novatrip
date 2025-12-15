@@ -1,6 +1,7 @@
 # novatrip
 
 ## 프로젝트 소개
+
 NovaTrip은 여행 정보 공유와 커뮤니티 기능을 결합한 서울 기반 여행 플랫폼입니다.
 사용자는 여행지를 탐색하고, 게시글을 작성하며, 좋아요·댓글·북마크 등을 통해
 다른 사용자와 여행 경험을 공유할 수 있습니다.
@@ -9,6 +10,7 @@ NovaTrip은 여행 정보 공유와 커뮤니티 기능을 결합한 서울 기�
 저는 DB 설계와 커뮤니티 핵심 기능 구현을 중심으로 프로젝트의 구조적 안정성을 담당했습니다.
 
 ## 기술 스택
+
 - Frontend
   - React
   - JavaScript
@@ -49,10 +51,10 @@ NovaTrip은 여행 정보 공유와 커뮤니티 기능을 결합한 서울 기�
 ## .env.example
 실제 .env 파일은 Git에 포함하지 않고 .env.example만 관리하여
 보안 및 환경 분리를 유지했습니다.
+
 - Server
   - PORT=8080
   - BASE_URL=http://localhost:8080
-
 - MongoDB
   - MONGO_URI=http://localhost:27017
   - MONGO_DB_NAME=NovaTrip
